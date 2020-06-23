@@ -35,6 +35,10 @@ do
             oc apply -f link-sa-pipeline.yaml
             oc describe secret regcred
 
+            # 5 - make the pipeline-account (sa) cluster-admin. 
+            # - is that necessary?
+            # - note: the pipeline-account does not exist yet.
+            oc apply -f clusteradmin-rolebinding.yaml
 
             break
             ;;
