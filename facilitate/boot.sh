@@ -1,0 +1,6 @@
+export DOCKER_USERNAME="<DOCKER_USERNAME>"
+export DOCKER_PASSWORD="<DOCKER_PASSWORD>"
+export DOCKER_EMAIL="<DOCKER_EMAIL>"
+export BC_PROJECT="bc-2"
+
+./setup-bc-fundament.sh
