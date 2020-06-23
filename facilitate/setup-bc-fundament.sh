@@ -29,7 +29,12 @@ do
             --docker-username=${DOCKER_USERNAME} \
             --docker-password=${DOCKER_PASSWORD} \
             --docker-email=${DOCKER_EMAIL}
-            oc get secret regcred
+            #oc get secret regcred
+
+            # 4 - link the pipeline service account to the regcred secret to allow a push
+            oc apply -f link-sa-pipeline.yaml
+            oc describe secret regcred
+
 
             break
             ;;
