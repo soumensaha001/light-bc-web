@@ -5,7 +5,7 @@ oc project ${BC_PROJECT}
 oc status
 
 PS3='Please enter your choice: '
-options=("delete namespace" "init namespace" "Quit")
+options=("delete namespace" "init namespace" "install tekton" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -39,6 +39,42 @@ do
             # - is that necessary?
             # - note: the pipeline-account does not exist yet.
             oc apply -f clusteradmin-rolebinding.yaml
+
+            # 6 - setup mysql database 
+            oc apply -f mysql.yaml
+
+            break
+            ;;
+        "install tekton")
+            echo "installing tekton"
+
+            # create project tekton-pipelines
+            oc new-project tekton-pipelines
+
+            # deploy various tekton artefacts into the openshift-pipelines namespace 
+            oc project openshift-pipelines
+
+            # deploy the dashboard
+            # TODO: make the version configurable  
+            # TODO: check the md5sum
+            oc apply --filename https://github.com/tektoncd/dashboard/releases/download/v0.5.2/openshift-tekton-dashboard-release.yaml
+
+            # increase the gateway time-out
+            oc annotate route tekton-dashboard --overwrite haproxy.router.openshift.io/timeout=2m -n tekton-pipelines
+
+            # install the tekton triggers 
+            # TODO: make the version configurable  
+            # TODO: check the md5sum
+            oc apply --filename https://storage.googleapis.com/tekton-releases/triggers/previous/v0.2.1/release.yaml
+
+            # install the tekton webhook extensions
+            # TODO: make the version configurable  
+            # TODO: check the md5sum
+            curl -L https://github.com/tektoncd/dashboard/releases/download/v0.5.2/openshift-tekton-webhooks-extension-release.yaml -o openshift-tekton-webhooks-extension-release.yaml
+            sed -i "s/{openshift_master_default_subdomain}/$APPS_LB/g" openshift-tekton-webhooks-extension-release.yaml
+            grep $APPS_LB openshift-tekton-webhooks-extension-release.yaml
+            oc apply -f  openshift-tekton-webhooks-extension-release.yaml
+            rm openshift-tekton-webhooks-extension-release.yaml
 
             break
             ;;
