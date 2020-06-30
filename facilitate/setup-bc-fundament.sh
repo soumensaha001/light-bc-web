@@ -5,7 +5,7 @@ oc project ${BC_PROJECT}
 oc status
 
 PS3='Please enter your choice: '
-options=("delete namespace" "init namespace" "install tekton" "Quit")
+options=("delete namespace" "init namespace" "install tekton" "setup pipeline" "run pipeline" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -76,6 +76,23 @@ do
             oc apply -f  openshift-tekton-webhooks-extension-release.yaml
             rm openshift-tekton-webhooks-extension-release.yaml
 
+            break
+            ;;
+        "setup pipeline")
+            echo "setup pipeline"
+            #1 setup tekton resources
+            echo "************************ setup Tekton PipelineResources ******************************************"
+            sed -i "s/ibmcase/${DOCKER_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
+            sed -i "s/phemankita/${GIT_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
+            #cat ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
+            oc apply -f ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
+            #oc get PipelineResources
+            tkn resources list
+            break
+            ;;
+        "run pipeline")
+            echo "run pipeline"
+            tkn pipeline start build-and-deploy -r git-repo=git-source-web -r image=docker-image-web -p deployment-name=web-lightblue-deployment
             break
             ;;
         "Quit")
