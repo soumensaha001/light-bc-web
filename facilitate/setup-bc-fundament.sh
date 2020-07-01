@@ -5,7 +5,7 @@ oc project ${BC_PROJECT}
 oc status
 
 PS3='Please enter your choice: '
-options=("delete namespace" "init namespace" "install tekton" "setup pipeline" "run pipeline" "Quit")
+options=("delete namespace" "init namespace" "install tekton" "setup pipeline" "run pipeline" "load db" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -93,6 +93,15 @@ do
         "run pipeline")
             echo "run pipeline"
             tkn pipeline start build-and-deploy -r git-repo=git-source-web -r image=docker-image-web -p deployment-name=web-lightblue-deployment
+            break
+            ;;
+        "load db")
+            echo "load db"
+            POD=$(oc get po | grep mysql | awk '{print $1}')
+            echo "discovered pod $POD"
+            #oc cp mysql-data.sql $POD:/tmp/mysql-data.sql
+            #oc rsh $POD ls -l /tmp/mysql-data.sql
+            oc rsh $POD mysql -udbuser -pPass4dbUs3R inventorydb < mysql-data.sql
             break
             ;;
         "Quit")
