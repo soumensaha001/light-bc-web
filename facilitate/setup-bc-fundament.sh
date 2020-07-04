@@ -4,6 +4,14 @@ echo "working on project ${BC_PROJECT}"
 oc project ${BC_PROJECT}
 oc status
 
+echo "Welcome"
+echo "- Typically you will want to create the project first"
+echo "- The install of tekton is optional. The tekton install allows setting up triggers and webhooks"
+echo "- After setting up the namespace you will proceed to install mysql"
+echo "- Next you can setup and run the pipeline to deploy the user interface"
+echo "- Finally the database can be loaded"
+echo "  Note: the light-bc-inventory service must have initialized and created the item table in the inventory database"
+
 PS3='Please enter your choice: '
 options=("delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "install tekton" "setup pipeline" "run pipeline" "load db" "Quit")
 select opt in "${options[@]}"
