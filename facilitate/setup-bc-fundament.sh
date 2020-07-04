@@ -5,7 +5,7 @@ oc project ${BC_PROJECT}
 oc status
 
 PS3='Please enter your choice: '
-options=("delete namespace" "init namespace" "install tekton" "setup pipeline" "run pipeline" "load db" "Quit")
+options=("delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "install tekton" "setup pipeline" "run pipeline" "load db" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -40,9 +40,19 @@ do
             # - note: the pipeline-account does not exist yet.
             oc apply -f clusteradmin-rolebinding.yaml
 
-            # 6 - setup mysql database 
-            oc apply -f mysql.yaml
+            echo "proceed to installing mysql"
+            echo "NOTE: when you install mysql with persistent storage then you need a cluster that can honor persistent volume claim requests"
 
+            break
+            ;;
+        "install mysql non-persistent")
+            echo "install mysql without persistent storage, inserts will be lost on restart of mysql"
+            oc apply -f mysql.yaml
+            break
+            ;;
+        "install mysql persistent")
+            echo "install mysql with persist storage, inserts will survice a restart of mysql"
+            oc apply -f mysql-persistent.yaml
             break
             ;;
         "install tekton")
