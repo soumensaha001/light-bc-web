@@ -18,8 +18,10 @@ select opt in "${options[@]}"
 do
     case $opt in
         "delete namespace")
-            echo "Deleting namespace ${BC_PROJECT}"
+            #1 remove the namespace with all of its resources
+            echo "************************ Deleting namespace ${BC_PROJECT} ******************************************"        
             oc delete project ${BC_PROJECT}
+            echo "note: though the persistent volume claim is removed, the persistent volume will still have a reference to that claim (data is not lost)."
             break
             ;;
         "init namespace")
