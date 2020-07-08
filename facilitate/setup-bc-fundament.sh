@@ -25,15 +25,18 @@ do
             break
             ;;
         "init namespace")
-            echo "Initializing namespace ${BC_PROJECT}"
+            echo "************************ Initializing namespace ${BC_PROJECT} ******************************************" 
 
             # 1
+            echo "creating namespace"
             oc new-project ${BC_PROJECT} 
 
-            # 2 - todo replace image with non-priviledged user
+            # 2 - TODO replace image with non-priviledged user
+            echo "allow the default account to run in priviledged mode (hint: not a best practice)"
             oc adm policy add-scc-to-user anyuid system:serviceaccount:${BC_PROJECT}:default
 
             # 3 - store access token to docker hub 
+            echo "create access key to docker hub account"
             oc create secret docker-registry regcred \
             --docker-server=https://index.docker.io/v1/ \
             --docker-username=${DOCKER_USERNAME} \
@@ -42,15 +45,17 @@ do
             #oc get secret regcred
 
             # 4 - link the pipeline service account to the regcred secret to allow a push
+            echo "giving the pipeline account the access key"
             oc apply -f link-sa-pipeline.yaml
             oc describe secret regcred
 
             # 5 - make the pipeline-account (sa) cluster-admin. 
             # - is that necessary?
             # - note: the pipeline-account does not exist yet.
+            echo "go wild and make the pipeline service account CLUSTER admin (hint: not a best practice)"
             oc apply -f clusteradmin-rolebinding.yaml
 
-            echo "proceed to installing mysql"
+            echo "done, please proceed to installing mysql"
             echo "NOTE: when you install mysql with persistent storage then you need a cluster that can honor persistent volume claim requests"
 
             break
