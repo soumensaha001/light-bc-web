@@ -107,9 +107,9 @@ do
             break
             ;;
         "setup pipeline")
-            echo "setup pipeline"
             #1 setup tekton resources
             echo "************************ setup Tekton PipelineResources ******************************************"
+            echo "note: the generic pipeline should allready have been installed from the light-bc-inventory repo"
             sed -i "s/ibmcase/${DOCKER_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
             sed -i "s/phemankita/${GIT_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
             #cat ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
@@ -119,12 +119,14 @@ do
             break
             ;;
         "run pipeline")
-            echo "run pipeline"
+            echo "************************ run Tekton Pipeline ******************************************"
+            echo "note: the Generic Pipeline should allready have been installed from the light-bc-inventory repo"
+            echo "note: the Pipeline Resources should allready have been installed from this repo"           
             tkn pipeline start build-and-deploy -r git-repo=git-source-web -r image=docker-image-web -p deployment-name=web-lightblue-deployment
             break
             ;;
         "load db")
-            echo "load db"
+            echo "************************ initializing database with tables and records ******************************************"
             POD=$(oc get po | grep mysql | awk '{print $1}')
             echo "discovered pod $POD"
             #oc cp mysql-data.sql $POD:/tmp/mysql-data.sql
