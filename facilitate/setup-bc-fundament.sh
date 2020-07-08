@@ -8,10 +8,9 @@ echo "Welcome"
 echo "- Typically you will want to create the project first"
 echo "- The install of tekton is optional. The tekton install allows setting up triggers and webhooks"
 echo "- After setting up the namespace you will proceed to install mysql"
-echo "- Next you install light-bc-inventory which will install the generic pipeline"
-echo "- Next you return here to setup and run the pipeline to deploy the user interface"
-echo "- Finally the database can be loaded"
-echo "  Note: the light-bc-inventory service must have initialized and created the item table in the inventory database"
+echo "- Next populate the mysql database"
+echo "- Next you install the generic pipeline using the light-bc-inventory repo"
+echo "- Next you return to this repo to setup and run the pipeline to deploy the user interface"
 
 PS3='Please enter your choice: '
 options=("delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "install tekton" "setup pipeline" "run pipeline" "load db" "Quit")
