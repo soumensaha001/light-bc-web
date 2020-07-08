@@ -25,8 +25,9 @@ do
             break
             ;;
         "init namespace")
-            echo "************************ Initializing namespace ${BC_PROJECT} ******************************************" 
 
+            echo "************************ Initializing namespace ${BC_PROJECT} ******************************************" 
+            
             # 1
             echo "creating namespace"
             oc new-project ${BC_PROJECT} 
@@ -61,13 +62,15 @@ do
             break
             ;;
         "install mysql non-persistent")
-            echo "install mysql without persistent storage, inserts will be lost on restart of mysql"
+            echo "************************ installing mysql in non persistent mode (data will be lost in various situations) ******************************************" 
             oc apply -f mysql.yaml
+            echo "done, please proceed to loading mysql with data."            
             break
             ;;
         "install mysql persistent")
-            echo "install mysql with persist storage, inserts will survice a restart of mysql"
+            echo "************************ installing mysql in non persistent mode (data will not be lost as long as your persistent storage is OK) ******************************************" 
             oc apply -f mysql-persistent.yaml
+            echo "done, please proceed to loading mysql with data."             
             break
             ;;
         "install tekton")
