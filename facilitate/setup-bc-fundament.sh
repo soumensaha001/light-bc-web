@@ -62,13 +62,13 @@ do
             break
             ;;
         "install mysql non-persistent")
-            echo "************************ installing mysql in non persistent mode (data will be lost in various situations) ******************************************" 
+            echo "************************ installing mysql in NON-PERSISTENT mode (data will be lost in various situations) ******************************************" 
             oc apply -f mysql.yaml
             echo "done, please proceed to loading mysql with data."            
             break
             ;;
         "install mysql persistent")
-            echo "************************ installing mysql in non persistent mode (data will not be lost as long as your persistent storage is OK) ******************************************" 
+            echo "************************ installing mysql in PERSISTENT mode (data will not be lost as long as your persistent storage is OK) ******************************************" 
             oc apply -f mysql-persistent.yaml
             echo "done, please proceed to loading mysql with data."             
             break
