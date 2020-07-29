@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: "image-registry.openshift-image-registry.svc:5000/openshift/mysql"
+        image: "mysql:8"
         imagePullPolicy: Always
         resources:
           limits:
