@@ -64,13 +64,13 @@ do
         "install mysql non-persistent")
             echo "************************ installing mysql in NON-PERSISTENT mode (data will be lost in various situations) ******************************************" 
             oc apply -f mysql.yaml
-            echo "done, please proceed to loading mysql with data."            
+            echo "done, please proceed to loading mysql with data.  Give the database 30 seconds to start and get ready before loading it with data."            
             break
             ;;
         "install mysql persistent")
             echo "************************ installing mysql in PERSISTENT mode (data will not be lost as long as your persistent storage is OK) ******************************************" 
             oc apply -f mysql-persistent.yaml
-            echo "done, please proceed to loading mysql with data."             
+            echo "done, please proceed to loading mysql with data. Give the database 30 seconds to start and get ready before loading it with data."             
             break
             ;;
         "install tekton")
@@ -128,10 +128,17 @@ do
         "load db")
             echo "************************ initializing database with tables and records ******************************************"
             POD=$(oc get po | grep mysql | awk '{print $1}')
-            echo "discovered pod $POD"
+            
             #oc cp mysql-data.sql $POD:/tmp/mysql-data.sql
             #oc rsh $POD ls -l /tmp/mysql-data.sql
             oc rsh $POD mysql -udbuser -pPass4dbUs3R inventorydb < mysql-data.sql
+            if [ 0 -eq $? ]; then
+              echo "discovered pod $POD"
+              echo "database initialized succesfully"
+            else
+              echo "failed to initialize the database, make sure it is started and ready"
+              exit 2
+            fi
             break
             ;;
         "Quit")
