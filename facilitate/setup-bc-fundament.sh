@@ -142,7 +142,7 @@ do
             echo "************************ run Tekton Pipeline ******************************************"
             echo "note: the Generic Pipeline should allready have been installed from the light-bc-inventory repo"
             echo "note: the Pipeline Resources should allready have been installed from this repo"           
-            tkn pipeline start build-and-deploy -r git-repo=git-source-web -r image=docker-image-web -p deployment-name=web-lightblue-deployment
+            tkn pipeline start build-and-deploy-node -r git-repo=git-source-web -r image=docker-image-web -p deployment-name=web-lightblue-deployment
             break
             ;;
         "load db")
