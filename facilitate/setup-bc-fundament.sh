@@ -1,16 +1,20 @@
 #!/bin/sh
 
+clear
 echo "working on project ${BC_PROJECT}"
+echo "----------------------------------------------------------------------------------------------" 
 oc project ${BC_PROJECT}
-oc status
+oc status --suggest
 
+echo "----------------------------------------------------------------------------------------------" 
 echo "Welcome"
 echo "- Typically you will want to create the project first"
-echo "- The install of tekton is optional. The tekton install allows setting up triggers and webhooks"
 echo "- After setting up the namespace you will proceed to install mysql"
-echo "- Next populate the mysql database"
-echo "- Next you install the generic pipeline using the light-bc-inventory repo"
-echo "- Next you return to this repo to setup and run the pipeline to deploy the user interface"
+echo "- Next populate the mysql database, if your cluster has dynamic storage provising then you can choose for the persistent option"
+echo "- Next you install the pipeline"
+echo "- Next you run the pipeline"
+echo "----------------------------------------------------------------------------------------------"
+echo " " 
 
 PS3='Please enter your choice: '
 options=("delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "setup pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "Quit")
