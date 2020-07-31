@@ -119,6 +119,23 @@ do
             rm ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
             #oc get PipelineResources
             tkn resources list
+
+            #2 - setup tekton tasks to interact with OpenShift
+            # credits: https://github.com/openshift/pipelines-tutorial/
+            # licensed under Apache 2.0
+            echo "************************ setup Tekton Tasks for interacting with OpenShift ******************************************"
+            oc apply -f 01_apply_manifest_task.yaml
+            oc apply -f 02_update_deployment_task.yaml
+            oc apply -f 03_restart_deployment_task.yaml
+            oc apply -f 04_build_vfs_storage.yaml
+            tkn task list
+
+            #3 - setup tekton pipeline 
+            echo "************************ setup Tekton Pipeline ******************************************"
+            #oc apply -f pipeline.yaml
+            oc apply -f pipeline-vfs.yaml
+            tkn pipeline list
+
             break
             ;;
         "run pipeline")
