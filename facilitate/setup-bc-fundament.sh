@@ -110,10 +110,13 @@ do
             #1 setup tekton resources
             echo "************************ setup Tekton PipelineResources ******************************************"
             echo "note: the generic pipeline should allready have been installed from the light-bc-inventory repo"
-            sed -i "s/ibmcase/${DOCKER_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
-            sed -i "s/phemankita/${GIT_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
+
+            cp ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            sed -i "s/ibmcase/${DOCKER_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            sed -i "s/phemankita/${GIT_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
             #cat ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
-            oc apply -f ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
+            oc apply -f ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            rm ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
             #oc get PipelineResources
             tkn resources list
             break
