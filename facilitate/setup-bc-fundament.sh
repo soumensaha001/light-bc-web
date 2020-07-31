@@ -13,7 +13,7 @@ echo "- Next you install the generic pipeline using the light-bc-inventory repo"
 echo "- Next you return to this repo to setup and run the pipeline to deploy the user interface"
 
 PS3='Please enter your choice: '
-options=("delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "install tekton" "setup pipeline" "run pipeline" "load db" "Quit")
+options=("delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "install tekton" "setup pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -161,6 +161,12 @@ do
             fi
             break
             ;;
+        "add sonar scan to pipeline")
+            echo "updating pipeline to perform a sonar qube scan"
+            oc apply -f pipeline-vfs-sonar.yaml
+            tkn pipeline list
+            break
+            ;;            
         "Quit")
             break
             ;;
