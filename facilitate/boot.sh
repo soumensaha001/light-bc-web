@@ -1,6 +1,6 @@
-export DOCKER_USERNAME='rocketronald'
-export DOCKER_PASSWORD='Updating-Applications-Declaratively-2020'
-export DOCKER_EMAIL='ronald.van.de.kuil@nl.ibm.com'
+export DOCKER_USERNAME='your user here'
+export DOCKER_PASSWORD='your password here'
+export DOCKER_EMAIL='your email here'
 export BC_PROJECT="bc-light"
 export GIT_USERNAME='kitty-catt'
 export APPS_LB="apps-crc.testing"
