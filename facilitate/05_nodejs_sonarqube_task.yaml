@@ -8,8 +8,8 @@ spec:
     inputs:
       - {type: git, name: source}
   params:
-    - default: 'node:12-stretch'
-      name: node-image
+    - default: 'sonarsource/sonar-scanner-cli:4.4'
+      name: sonarqube-image
       type: string
   steps:
     - args:
@@ -17,7 +17,9 @@ spec:
         - |
           set -e
           if [ -n "${SONARQUBE_URL}" ]; then
-              npm run sonarqube:scan --if-present
+              echo "workdir: $(pwd)" 
+              echo "list: $(ls)" 
+              /opt/sonar-scanner/bin/sonar-scanner -Dsonar.projectKey=${SONARQUBE_PROJECT} -Dsonar.sources=. -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_LOGIN}
           else 
               echo "Skipping Sonar Qube step because sonarqube url has not been configured"
           fi
@@ -30,19 +32,19 @@ spec:
               key: SONARQUBE_URL
               name: sonarqube-config
               optional: true
-        - name: SONARQUBE_USER
+        - name: SONARQUBE_PROJECT
           valueFrom:
             secretKeyRef:
-              key: SONARQUBE_USER
+              key: SONARQUBE_PROJECT
               name: sonarqube-access
               optional: true
-        - name: SONARQUBE_PASSWORD
+        - name: SONARQUBE_LOGIN
           valueFrom:
             secretKeyRef:
-              key: SONARQUBE_PASSWORD
+              key: SONARQUBE_LOGIN
               name: sonarqube-access
               optional: true
-      image: $(inputs.params.node-image)
+      image: $(inputs.params.sonarqube-image)
       name: sonarqube
       resources: {}
       securityContext:
@@ -50,7 +52,7 @@ spec:
       volumeMounts:
         - mountPath: .m2/repository
           name: m2-repository
-      workingDir: /workspace/source
+      workingDir: /workspace/source/StoreWebApp
   volumes:
     - emptyDir: {}
       name: m2-repository

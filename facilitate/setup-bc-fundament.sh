@@ -132,7 +132,6 @@ do
             oc apply -f 02_update_deployment_task.yaml
             oc apply -f 03_restart_deployment_task.yaml
             oc apply -f 04_build_vfs_storage.yaml
-            oc apply -f 05_nodejs_sonarqube_task.yaml
             tkn task list
 
             #3 - setup tekton pipeline 
@@ -167,9 +166,24 @@ do
             break
             ;;
         "add sonar scan to pipeline")
+
             echo "updating pipeline to perform a sonar qube scan"
+            oc apply -f 05_nodejs_sonarqube_task.yaml
+            tkn task list
+
             oc apply -f pipeline-vfs-sonar.yaml
             tkn pipeline list
+
+            echo "using SONARQUBE_URL=${SONARQUBE_URL}"
+            oc delete configmap sonarqube-config 
+            oc create configmap sonarqube-config \
+              --from-literal SONARQUBE_URL=${SONARQUBE_URL}
+            
+            oc delete secret sonarqube-access 
+            oc create secret generic sonarqube-access \
+              --from-literal SONARQUBE_PROJECT=${SONARQUBE_PROJECT} \
+              --from-literal SONARQUBE_LOGIN=${SONARQUBE_LOGIN} 
+
             break
             ;;            
         "Quit")
