@@ -3,14 +3,14 @@ kind: Task
 metadata:
   name: nodejs-sonarqube-task
 spec:
-  inputs:
-    params:
-      - default: 'node:12-stretch'
-        name: node-image
-        type: string
-    resources:
-      - name: git-source
-        type: git
+#  --new v1beta1 style --
+  resources:
+    inputs:
+      - {type: git, name: source}
+  params:
+    - default: 'node:12-stretch'
+      name: node-image
+      type: string
   steps:
     - args:
         - '-c'
@@ -50,7 +50,7 @@ spec:
       volumeMounts:
         - mountPath: .m2/repository
           name: m2-repository
-      workingDir: $(inputs.resources.git-source.path)
+      workingDir: /workspace/source
   volumes:
     - emptyDir: {}
       name: m2-repository

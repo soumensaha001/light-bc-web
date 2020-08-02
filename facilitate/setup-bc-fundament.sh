@@ -132,6 +132,7 @@ do
             oc apply -f 02_update_deployment_task.yaml
             oc apply -f 03_restart_deployment_task.yaml
             oc apply -f 04_build_vfs_storage.yaml
+            oc apply -f 05_nodejs_sonarqube_task.yaml
             tkn task list
 
             #3 - setup tekton pipeline 
