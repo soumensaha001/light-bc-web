@@ -175,11 +175,11 @@ do
             tkn pipeline list
 
             echo "using SONARQUBE_URL=${SONARQUBE_URL}"
-            oc delete configmap sonarqube-config 
+            oc delete configmap sonarqube-config 2>/dev/null
             oc create configmap sonarqube-config \
               --from-literal SONARQUBE_URL=${SONARQUBE_URL}
             
-            oc delete secret sonarqube-access 
+            oc delete secret sonarqube-access 2>/dev/null
             oc create secret generic sonarqube-access \
               --from-literal SONARQUBE_PROJECT=${SONARQUBE_PROJECT} \
               --from-literal SONARQUBE_LOGIN=${SONARQUBE_LOGIN} 
