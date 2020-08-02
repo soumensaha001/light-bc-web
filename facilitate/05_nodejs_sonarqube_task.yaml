@@ -19,7 +19,7 @@ spec:
           if [ -n "${SONARQUBE_URL}" ]; then
               npm run sonarqube:scan --if-present
           else 
-              echo "Skipping Sonar Qube step"
+              echo "Skipping Sonar Qube step because sonarqube url has not been configured"
           fi
       command:
         - /bin/bash
