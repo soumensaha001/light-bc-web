@@ -17,7 +17,7 @@ echo "--------------------------------------------------------------------------
 echo " " 
 
 PS3='Please enter your choice: '
-options=("delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "setup pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "Quit")
+options=("delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "setup basic pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "pipeline with push to ICR" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -50,9 +50,9 @@ do
             #oc get secret regcred
 
             # 4 - link the pipeline service account to the regcred secret to allow a push
-            echo "giving the pipeline account the access key"
+            echo "giving the pipeline account the access keys to dockerhub"
             oc apply -f link-sa-pipeline.yaml
-            oc describe secret regcred
+            #oc describe secret regcred
 
             # 5 - make the pipeline-account (sa) cluster-admin. 
             # - is that necessary?
@@ -110,7 +110,17 @@ do
 
             break
             ;;
-        "setup pipeline")
+        "setup basic pipeline")
+
+            echo "re-create access key to docker hub account"
+            oc delete secret regcred 
+            oc create secret docker-registry regcred \
+            --docker-server=https://index.docker.io/v1/ \
+            --docker-username=${DOCKER_USERNAME} \
+            --docker-password=${DOCKER_PASSWORD} \
+            --docker-email=${DOCKER_EMAIL}
+            #oc get secret regcred
+
             #1 setup tekton resources
             echo "************************ setup Tekton PipelineResources ******************************************"
             echo "note: the generic pipeline should allready have been installed from the light-bc-inventory repo"
@@ -183,6 +193,30 @@ do
             oc create secret generic sonarqube-access \
               --from-literal SONARQUBE_PROJECT=${SONARQUBE_PROJECT} \
               --from-literal SONARQUBE_LOGIN=${SONARQUBE_LOGIN} 
+
+            break
+            ;;            
+        "pipeline with push to ICR")
+
+            # Recreate access token to IBM Container Registry
+            oc delete secret regcred 
+            oc create secret docker-registry regcred \
+            --docker-server=https://${IBM_REGISTRY_URL}/v1/ \
+            --docker-username=iamapikey \
+            --docker-password=${IBM_ID_APIKEY} \
+            --docker-email=${IBM_ID_EMAIL}
+
+            # Update Tekton Resources to push 
+            cp ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            sed -i "s/ibmcase/${IBM_REGISTRY_NS}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            sed -i "s/index.docker.io/${IBM_REGISTRY_URL}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            sed -i "s/phemankita/${GIT_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            #cat ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
+            oc apply -f ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            rm ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            #oc get PipelineResources
+            tkn resources list
+
 
             break
             ;;            
