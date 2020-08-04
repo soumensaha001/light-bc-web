@@ -232,7 +232,7 @@ do
 
             oc delete configmap ibmcloud-config 2>/dev/null
             oc create configmap ibmcloud-config \
-             --from-literal RESOURCE_GROUP=a306b5f0c7e54b0194e30d60e8dd7252 \
+             --from-literal RESOURCE_GROUP=default \
              --from-literal REGION=eu-de
 
             break
