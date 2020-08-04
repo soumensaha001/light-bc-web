@@ -17,7 +17,7 @@ echo "--------------------------------------------------------------------------
 echo " " 
 
 PS3='Please enter your choice: '
-options=("delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "setup basic pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "pipeline with push to ICR" "Quit")
+options=("delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "setup basic pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "setup pipeline with push to ICR" "run pipeline with push to ICR" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -201,7 +201,7 @@ do
 
             break
             ;;            
-        "pipeline with push to ICR")
+        "setup pipeline with push to ICR")
 
             # Recreate access token to IBM Container Registry
             oc delete secret regcred 
@@ -224,8 +224,27 @@ do
 
             echo "************************ setup Basic Tekton Pipeline ******************************************"
             #oc apply -f pipeline.yaml
-            oc apply -f pipeline-vfs.yaml
+            oc apply -f pipeline-vfs-icr.yaml
             tkn pipeline list
+            
+            oc delete secret ibmcloud-apikey 2>/dev/null
+            oc create secret generic ibmcloud-apikey --from-literal APIKEY=${IBM_ID_APIKEY}
+
+            oc delete configmap ibmcloud-config 2>/dev/null
+            oc create configmap ibmcloud-config \
+             --from-literal RESOURCE_GROUP=a306b5f0c7e54b0194e30d60e8dd7252 \
+             --from-literal REGION=eu-de
+
+            break
+            ;;            
+        "run pipeline with push to ICR")
+            
+            tkn pipeline start build-and-deploy-node \
+                -r git-repo=git-source-web \
+                -r image=docker-image-web \
+                -p deployment-name=web-lightblue-deployment \
+                -p image-url-name=${IBM_REGISTRY_URL}/${IBM_REGISTRY_NS}/lightbluecompute-web:latest \
+                -p scan-image-name=true
 
             break
             ;;            
