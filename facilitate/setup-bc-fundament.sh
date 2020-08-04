@@ -60,6 +60,10 @@ do
             echo "go wild and make the pipeline service account CLUSTER admin (hint: not a best practice)"
             oc apply -f clusteradmin-rolebinding.yaml
 
+            # 6 - give the default service account the access keys to the registry 
+            echo " overwhelming the deployer with irrelevant information (hint: not a best practice)"
+            oc secrets link default regcred --for=pull
+
             echo "done, please proceed to installing mysql"
             echo "NOTE: when you install mysql with persistent storage then you need a cluster that can honor persistent volume claim requests"
 
@@ -218,6 +222,10 @@ do
             #oc get PipelineResources
             tkn resources list
 
+            echo "************************ setup Basic Tekton Pipeline ******************************************"
+            #oc apply -f pipeline.yaml
+            oc apply -f pipeline-vfs.yaml
+            tkn pipeline list
 
             break
             ;;            

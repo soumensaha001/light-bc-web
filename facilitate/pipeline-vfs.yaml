@@ -36,6 +36,18 @@ spec:
         resource: git-repo
     runAfter:
     - build-image
+  - name: update-deployment
+    taskRef:
+      name: update-deployment
+    resources:
+      inputs:
+      - name: image
+        resource: image
+    params:
+    - name: deployment
+      value: $(params.deployment-name)
+    runAfter:
+    - apply-manifests
   - name: restart-deployment
     taskRef:
       name: restart-deployment
@@ -44,4 +56,4 @@ spec:
     - name: deployment
       value: $(params.deployment-name)
     runAfter:
-    - apply-manifests
+    - update-deployment
