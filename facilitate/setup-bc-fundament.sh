@@ -62,6 +62,8 @@ do
 
             # 6 - give the default service account the access keys to the registry 
             echo " overwhelming the deployer with irrelevant information (hint: not a best practice)"
+            echo " did you know that the human mind has place for about 4 facts in working memory?"
+            echo " by now, some important details might have been pushed out of your working memory"
             oc secrets link default regcred --for=pull
 
             echo "done, please proceed to installing mysql"
@@ -146,6 +148,8 @@ do
             oc apply -f 02_update_deployment_task.yaml
             oc apply -f 03_restart_deployment_task.yaml
             oc apply -f 04_build_vfs_storage.yaml
+            oc apply -f 05_nodejs_sonarqube_task.yaml
+            oc apply -f 06_VA_scan.yaml
             tkn task list
 
             #3 - setup tekton pipeline 
@@ -182,10 +186,6 @@ do
             ;;
         "add sonar scan to pipeline")
 
-            echo "updating pipeline to perform a sonar qube scan"
-            oc apply -f 05_nodejs_sonarqube_task.yaml
-            tkn task list
-
             oc apply -f pipeline-vfs-sonar.yaml
             tkn pipeline list
 
@@ -202,10 +202,6 @@ do
             break
             ;;            
         "setup pipeline with push to ICR")
-
-            echo "updating pipeline to perform a VA scan"
-            oc apply -f 06_VA_scan.yaml
-            tkn task list
 
             # Recreate access token to IBM Container Registry
             oc delete secret regcred 
@@ -226,9 +222,9 @@ do
             #oc get PipelineResources
             tkn resources list
 
-            echo "************************ setup Basic Tekton Pipeline ******************************************"
-            #oc apply -f pipeline.yaml
-            oc apply -f pipeline-vfs-icr.yaml
+            echo "************************ setup Tekton Pipeline with sonar-scan and va-scan ******************************************"
+            #oc apply -f pipeline-vfs-icr.yaml
+            oc apply -f pipeline-full.yaml
             tkn pipeline list
             
             oc delete secret ibmcloud-apikey 2>/dev/null
