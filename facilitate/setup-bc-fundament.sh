@@ -203,6 +203,10 @@ do
             ;;            
         "setup pipeline with push to ICR")
 
+            echo "updating pipeline to perform a VA scan"
+            oc apply -f 06_VA_scan.yaml
+            tkn task list
+
             # Recreate access token to IBM Container Registry
             oc delete secret regcred 
             oc create secret docker-registry regcred \
