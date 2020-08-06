@@ -16,10 +16,10 @@ export SONARQUBE_LOGIN='<login here>'
 export BC_PROJECT="bc-light"
 
 # ICR with VA Scan
-export IBM_ID_APIKEY=<api key here>
-export IBM_ID_EMAIL=<ibm id here>
-export IBM_REGISTRY_URL=de.icr.io
-export IBM_REGISTRY_NS=<namespace here>
+export IBM_ID_APIKEY='<api key here>'
+export IBM_ID_EMAIL='<ibm id here>'
+export IBM_REGISTRY_URL='de.icr.io'
+export IBM_REGISTRY_NS='<namespace here>'
 
 
 ./setup-bc-fundament.sh
