@@ -1,4 +1,5 @@
-FROM node:6-alpine
+#FROM node:6-alpine
+FROM node:14.8.0-alpine3.11
 
 # Install Extra Packages
 RUN apk --update add git less openssh jq bash bc ca-certificates curl && \
