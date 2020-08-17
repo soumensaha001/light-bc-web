@@ -129,7 +129,7 @@ do
 
             #1 setup tekton resources
             echo "************************ setup Tekton PipelineResources ******************************************"
-            echo "note: the generic pipeline should allready have been installed from the light-bc-inventory repo"
+            #echo "note: the generic pipeline should allready have been installed from the light-bc-inventory repo"
 
             cp ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
             sed -i "s/ibmcase/${DOCKER_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
