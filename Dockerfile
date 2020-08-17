@@ -35,7 +35,7 @@ RUN chown -R 2000:0 $APP_HOME
 
 # Cleanup packages
 # RUN apk del git less openssh
-RUN apk del git less openssh jq bash bc ca-certificates curl
+RUN apk del git less openssh jq bc curl
 
 # Switch back to non-root
 USER 2000
