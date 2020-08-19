@@ -1,6 +1,7 @@
 #FROM node:6-alpine
 #FROM node:14.8.0-alpine3.11
-FROM registry.redhat.io/rhscl/nodejs-10-rhel7
+#FROM registry.redhat.io/rhscl/nodejs-10-rhel7
+FROM nodejs:10-SCL
 
 # Install Extra Packages
 RUN apk --update add git less openssh jq bash bc ca-certificates curl && \
