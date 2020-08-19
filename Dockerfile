@@ -29,9 +29,9 @@ COPY StoreWebApp/package*.json StoreWebApp/bower.json StoreWebApp/.bowerrc ./
 #RUN adduser -u 2000 -G root -D blue \
 #	&& chown -R 2000:0 $APP_HOME
 
-chown -R 2000:0 $APP_HOME &&\
-chgrp -R 0 $APP_HOME &&\
-chmod -R g=u $APP_HOME
+RUN chown -R 2000:0 $APP_HOME &&\
+  chgrp -R 0 $APP_HOME &&\
+  chmod -R g=u $APP_HOME
 
 # Install Dependencies
 USER 2000
