@@ -33,6 +33,11 @@ RUN chown -R 2000:0 $APP_HOME &&\
   chgrp -R 0 $APP_HOME &&\
   chmod -R g=u $APP_HOME
 
+RUN mkdir -pv /home/blue
+RUN chown -R 2000:0 /home/blue &&\
+  chgrp -R 0 /home/blue &&\
+  chmod -R g=u /home/blue
+
 # Install Dependencies
 USER 2000
 RUN npm install
@@ -43,11 +48,6 @@ COPY StoreWebApp ./
 
 # Chown
 RUN chown -R 2000:0 $APP_HOME
-
-RUN mkdir -pv /home/blue
-RUN chown -R 2000:0 /home/blue &&\
-  chgrp -R 0 /home/blue &&\
-  chmod -R g=u /home/blue
 
 # Cleanup packages
 # RUN apk del git less openssh
