@@ -44,6 +44,11 @@ COPY StoreWebApp ./
 # Chown
 RUN chown -R 2000:0 $APP_HOME
 
+RUN mkdir -pv /home/blue
+RUN chown -R 2000:0 /home/blue &&\
+  chgrp -R 0 /home/blue &&\
+  chmod -R g=u /home/blue
+
 # Cleanup packages
 # RUN apk del git less openssh
 #RUN apk del git less openssh jq bc curl
