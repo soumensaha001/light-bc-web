@@ -6,9 +6,9 @@
 FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10-SCL
 
 # Install Extra Packages
-RUN apk --update add git less openssh jq bash bc ca-certificates curl && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /var/cache/apk/
+#RUN apk --update add git less openssh jq bash bc ca-certificates curl && \
+#    rm -rf /var/lib/apt/lists/* && \
+#    rm -rf /var/cache/apk/
 
 # Set Environment Variables
 ENV NPM_CONFIG_PREFIX=/home/blue/.npm-global
@@ -40,7 +40,7 @@ RUN chown -R 2000:0 $APP_HOME
 
 # Cleanup packages
 # RUN apk del git less openssh
-RUN apk del git less openssh jq bc curl
+#RUN apk del git less openssh jq bc curl
 
 # Switch back to non-root
 USER 2000
