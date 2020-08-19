@@ -16,8 +16,10 @@ ENV PATH=$PATH:/home/blue/.npm-global/bin
 ENV NODE_ENV production
 
 # Create app directory
+USER 0
 ENV APP_HOME=/app
-RUN mkdir -p $APP_HOME/node_modules $APP_HOME/public/resources/bower_components
+#RUN mkdir -p $APP_HOME/node_modules $APP_HOME/public/resources/bower_components
+RUN mkdir -pv $APP_HOME/node_modules $APP_HOME/public/resources/bower_components
 WORKDIR $APP_HOME
 
 # Copy package.json, bower.json, and .bowerrc files
