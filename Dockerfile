@@ -6,11 +6,11 @@
 
 # RSCL / RHOAR
 #FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10-SCL
-#FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10
+FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10
 
 # UBI
 # as admin, do oc import-image nodejs:ubi7 -n openshift --from=registry.access.redhat.com/ubi7/nodejs-10:latest --confirm 
-FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:ubi7
+#FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:ubi7
 
 # Install Extra Packages
 #RUN apk --update add git less openssh jq bash bc ca-certificates curl && \
