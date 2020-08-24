@@ -186,6 +186,28 @@ do
             ;;
         "add sonar scan to pipeline")
 
+            echo "re-create access key to docker hub account"
+            oc delete secret regcred 
+            oc create secret docker-registry regcred \
+            --docker-server=https://index.docker.io/v1/ \
+            --docker-username=${DOCKER_USERNAME} \
+            --docker-password=${DOCKER_PASSWORD} \
+            --docker-email=${DOCKER_EMAIL}
+            #oc get secret regcred
+
+            #1 setup tekton resources
+            echo "************************ setup Tekton PipelineResources ******************************************"
+            #echo "note: the generic pipeline should allready have been installed from the light-bc-inventory repo"
+
+            cp ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            sed -i "s/ibmcase/${DOCKER_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            sed -i "s/phemankita/${GIT_USERNAME}/g" ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            #cat ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml
+            oc apply -f ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            rm ../tekton/PipelineResources/bluecompute-web-pipeline-resources.yaml.mod
+            #oc get PipelineResources
+            tkn resources list
+
             oc apply -f pipeline-vfs-sonar.yaml
             tkn pipeline list
 
@@ -222,9 +244,9 @@ do
             #oc get PipelineResources
             tkn resources list
 
-            echo "************************ setup Tekton Pipeline with sonar-scan and va-scan ******************************************"
-            #oc apply -f pipeline-vfs-icr.yaml
-            oc apply -f pipeline-full.yaml
+            echo "************************ setup Tekton Pipeline with IBM VA scan ******************************************"
+            oc apply -f pipeline-vfs-icr.yaml
+            #oc apply -f pipeline-full.yaml
             tkn pipeline list
             
             oc delete secret ibmcloud-apikey 2>/dev/null
