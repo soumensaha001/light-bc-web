@@ -17,10 +17,17 @@ echo "--------------------------------------------------------------------------
 echo " " 
 
 PS3='Please enter your choice: '
-options=("delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "setup basic pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "setup pipeline with push to ICR" "run pipeline with push to ICR" "Quit")
+options=("install tools" "delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "setup basic pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "setup pipeline with push to ICR" "run pipeline with push to ICR" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
+        "install tools")   
+            echo "installing tools"
+            cd tools
+            ./setup.sh
+            cd ..
+            break
+            ;;       
         "delete namespace")
             #1 remove the namespace with all of its resources
             echo "************************ Deleting namespace ${BC_PROJECT} ******************************************"        
