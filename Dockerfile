@@ -1,12 +1,14 @@
 # original
 #FROM node:6-alpine
 
+FROM node:6.0
+
 # dockerhub
 #FROM node:14.8.0-alpine3.11
 
 # RSCL / RHOAR
 #FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10-SCL
-FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10
+#FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10
 
 # UBI
 # as admin, do oc import-image nodejs:ubi7 -n openshift --from=registry.access.redhat.com/ubi7/nodejs-10:latest --confirm 
