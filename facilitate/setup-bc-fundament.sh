@@ -17,7 +17,7 @@ echo "--------------------------------------------------------------------------
 echo " " 
 
 PS3='Please enter your choice: '
-options=("install tools" "delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "setup basic pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "setup pipeline with push to ICR" "run pipeline with push to ICR" "switch branch" "Quit")
+options=("install tools" "delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "setup basic pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "setup pipeline with push to ICR" "run pipeline with push to ICR" "switch branch" "install Palo Alto Prisma Cloud Compute (Twistlock)" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -282,6 +282,11 @@ do
             ./mod_branch.sh
             break
             ;;
+        "install Palo Alto Prisma Cloud Compute (Twistlock)")
+            echo "installing Palo Alto Prisma Cloud Compute (Twistlock)"
+            ./twist-params2.sh
+            break
+            ;;            
         "Quit")
             break
             ;;
