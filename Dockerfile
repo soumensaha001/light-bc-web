@@ -47,9 +47,10 @@ RUN chown -R 2000:0 /home/blue &&\
   chmod -R g=u /home/blue
 
 # Install Dependencies
-USER 2000
-RUN npm install
+#USER 2000
 USER 0
+RUN npm install
+#USER 0
 
 COPY startup.sh startup.sh
 COPY StoreWebApp ./
