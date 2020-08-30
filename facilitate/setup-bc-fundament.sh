@@ -286,7 +286,7 @@ do
             echo "installing Palo Alto Prisma Cloud Compute (Twistlock)"
             cd tools/twistlock
             #pwd
-            ./twist-params2.sh
+            bash ./twist-params2.sh
             cd -           
             #pwd
             break
