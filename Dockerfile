@@ -3,11 +3,11 @@
 #FROM node:6.0
 
 # dockerhub
-FROM node:14.9.0
+#FROM node:14.9.0
 
 # RSCL / RHOAR
 #FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10-SCL
-#FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10
+FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10
 
 # UBI
 # as admin, do oc import-image nodejs:ubi7 -n openshift --from=registry.access.redhat.com/ubi7/nodejs-10:latest --confirm 
@@ -47,10 +47,10 @@ RUN chown -R 2000:0 /home/blue &&\
   chmod -R g=u /home/blue
 
 # Install Dependencies
-#USER 2000
-USER 0
-RUN npm install
+USER 2000
 #USER 0
+RUN npm install
+USER 0
 
 COPY startup.sh startup.sh
 COPY StoreWebApp ./
