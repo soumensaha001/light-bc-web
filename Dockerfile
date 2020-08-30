@@ -1,9 +1,9 @@
 # original
 #FROM node:6-alpine
-FROM node:6.0
+#FROM node:6.0
 
 # dockerhub
-#FROM node:14.8.0-alpine3.11
+FROM node:14.9.0
 
 # RSCL / RHOAR
 #FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10-SCL
