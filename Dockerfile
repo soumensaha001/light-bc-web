@@ -1,6 +1,5 @@
 # original
 #FROM node:6-alpine
-
 FROM node:6.0
 
 # dockerhub
