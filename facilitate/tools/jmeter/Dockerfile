@@ -24,7 +24,7 @@ ENV JMETER_HOME $JMETER_BASE/apache-jmeter-5.2.1
 ENV PATH $JMETER_HOME/bin:$PATH
 
 # Additional jars (for example jdbc or jms drivers) can be copied into $JMETER_HOME/lib
-COPY lib/* $JMETER_HOME/lib/
+#COPY lib/* $JMETER_HOME/lib/
 
 # Copy custom user.properties file for reports dashboard to be generated
 # COPY user.properties $JMETER_HOME/bin/user.properties
@@ -32,20 +32,22 @@ COPY lib/* $JMETER_HOME/lib/
 # Set working directory
 WORKDIR $JMETER_BASE
 
-COPY scripts/run.sh $JMETER_BASE/run.sh
+#COPY scripts/run.sh $JMETER_BASE/run.sh
 
 RUN chmod +x -R $JMETER_HOME
 
-RUN chown -R 1001:1001 $JMETER_BASE && \
-    chmod ug+x $JMETER_BASE/run.sh && \
+RUN chown -R 1001:0 $JMETER_BASE && \
     chgrp -R 0 $JMETER_BASE && \
     chmod -R g=u $JMETER_BASE
+
+#RUN yum install -y sleep
 
 #1001 is the container user
 USER 1001
 
 # This will be executed in the Tekton step.
 #$JMETER_HOME/bin/jmeter.sh -n -t $WORKSPACE/bin/target.jmx -l $WORKSPACE/bin/report.jtl
+# which defaults to /opt/jmeter/apache-jmeter-5.2.1/bin
 
 #ENTRYPOINT $JMETER_BASE/run.sh
-ENTRYPOINT ["bash"]
+ENTRYPOINT ["sleep", "30"]
