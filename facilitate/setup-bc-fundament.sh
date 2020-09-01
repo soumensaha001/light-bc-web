@@ -43,6 +43,9 @@ do
             echo "creating namespace"
             oc new-project ${BC_PROJECT} 
 
+            # allow pull access to the jmeter image the tools namespace.
+            oc policy add-role-to-group -n tools system:image-puller system:serviceaccounts:${BC_PROJECT} 
+
             # 2 - TODO replace image with non-priviledged user
             echo "allow the default account to run in priviledged mode (hint: not a best practice)"
             oc adm policy add-scc-to-user anyuid system:serviceaccount:${BC_PROJECT}:default
