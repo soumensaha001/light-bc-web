@@ -36,9 +36,6 @@ COPY scripts/run.sh $JMETER_BASE/run.sh
 
 RUN chmod +x -R $JMETER_HOME
 
-# This will be executed in the Tekton step
-#$JMETER_HOME/bin/jmeter.sh -n -t $WORKSPACE/bin/target.jmx -l $WORKSPACE/bin/report.jtl
-
 RUN chown -R 1001:1001 $JMETER_BASE && \
     chmod ug+x $JMETER_BASE/run.sh && \
     chgrp -R 0 $JMETER_BASE && \
@@ -47,4 +44,8 @@ RUN chown -R 1001:1001 $JMETER_BASE && \
 #1001 is the container user
 USER 1001
 
-ENTRYPOINT $JMETER_BASE/run.sh
+# This will be executed in the Tekton step.
+#$JMETER_HOME/bin/jmeter.sh -n -t $WORKSPACE/bin/target.jmx -l $WORKSPACE/bin/report.jtl
+
+#ENTRYPOINT $JMETER_BASE/run.sh
+ENTRYPOINT ["bash"]
