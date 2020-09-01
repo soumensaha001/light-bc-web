@@ -1,11 +1,11 @@
 oc project tools
 
 # Install influxdb
-oc apply -f influxdb-data.yaml 
-oc apply -f influxdb-secrets.yaml 
-oc apply -f influxdb-config.yaml 
-oc apply -f influxdb-deployment.yaml 
-oc apply -f influxdb-service.yaml 
+oc apply -f influxdb/influxdb-data.yaml 
+oc apply -f influxdb/influxdb-secrets.yaml 
+oc apply -f influxdb/influxdb-config.yaml 
+oc apply -f influxdb/influxdb-deployment.yaml 
+oc apply -f influxdb/influxdb-service.yaml 
 
 oc get packagemanifests -n openshift-marketplace | grep grafana
 
@@ -15,7 +15,7 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: openshift-grafana-operator
-  namespace: openshift-operators
+  namespace: tools
 spec:
   channel: alpha
   name: grafana-operator
