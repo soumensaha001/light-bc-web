@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  generation: 14
+  name: jmeter-pipeline
+spec:
+  params:
+    - default: 'https://github.com/kitty-catt/light-bc-web'
+      description: the git repo containing the jmeter testplans.
+      name: git-repo
+      type: string
+    - default: 'master'
+      description: the branch to build
+      name: git-revision
+      type: string
+  tasks:
+    - name: jmeter
+      params:
+        - name: git-url
+          value: $(params.git-repo)
+        - name: git-revision
+          value: $(params.git-revision)          
+      taskRef:
+        kind: Task
+        name: ibm-jmeter-test
