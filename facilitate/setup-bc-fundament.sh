@@ -17,7 +17,7 @@ echo "--------------------------------------------------------------------------
 echo " " 
 
 PS3='Please enter your choice: '
-options=("install tools" "delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "setup basic pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "setup pipeline with push to ICR" "run pipeline with push to ICR" "switch branch" "install Palo Alto Prisma Cloud Compute (Twistlock)" "Quit")
+options=("install tools" "delete namespace" "init namespace" "install mysql non-persistent" "install mysql persistent" "setup basic pipeline" "run pipeline" "load db" "add sonar scan to pipeline" "setup pipeline with push to ICR" "run pipeline with push to ICR" "switch branch" "install Palo Alto Prisma Cloud Compute (Twistlock)" "setup jmeter-pipeline" "run jmeter-pipeline" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -293,7 +293,18 @@ do
             cd -           
             #pwd
             break
-            ;;            
+            ;;
+        "setup jmeter-pipeline")
+            echo "setup jmeter-pipeline"
+            oc apply -f 07_jmeter_task.yaml 
+            oc apply -f pipeline-jmeter.yaml
+            break
+            ;;    
+        "run jmeter-pipeline")
+            echo "run jmeter-pipeline"
+            tkn pipeline start jmeter-pipeline
+            break
+            ;;                                  
         "Quit")
             break
             ;;
