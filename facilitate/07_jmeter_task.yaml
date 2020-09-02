@@ -17,6 +17,8 @@ spec:
       default: master
     - name: source-dir
       default: /source
+    - name: test-plan
+      default: facilitate/tools/jmeter/testplan/target.jmx     
   volumes:
     - name: source
       emptyDir: {}
@@ -51,5 +53,5 @@ spec:
         set -x
         cd $(params.source-dir)
         git checkout $(params.git-revision)
-        ls -l
+        ls -l facilitate/tools/jmeter/testplan/target.jmx     
  

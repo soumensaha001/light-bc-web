@@ -13,13 +13,19 @@ spec:
       description: the branch to build
       name: git-revision
       type: string
+    - default: 'facilitate/tools/jmeter/testplan/target.jmx'
+      description: the path to the jmeter test plan in the repo
+      name: test-plan
+      type: string
   tasks:
     - name: jmeter
       params:
         - name: git-url
           value: $(params.git-repo)
         - name: git-revision
-          value: $(params.git-revision)          
+          value: $(params.git-revision)
+        - name: test-plan
+          value: $(params.test-plan)
       taskRef:
         kind: Task
         name: ibm-jmeter-test
