@@ -59,3 +59,4 @@ spec:
       script: |
         set +x
         ls $(params.source-dir)/$(params.test-plan)
+        /opt/jmeter/apache-jmeter-5.2.1/bin/jmeter.sh -n -t $(params.source-dir)/$(params.test-plan) -l /tmp/report.jtl
