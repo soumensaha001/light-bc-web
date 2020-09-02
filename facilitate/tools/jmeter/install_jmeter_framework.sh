@@ -26,6 +26,8 @@ spec:
 EOF
 
 # TODO: post yaml tp configure datasource
+oc apply -f grafana.yaml
+oc apply -f grafana_ds.yaml
 
 #dashboard 5496 JMeter for graphana.
 #import <code>
