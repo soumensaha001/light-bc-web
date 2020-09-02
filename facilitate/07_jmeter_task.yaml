@@ -54,4 +54,8 @@ spec:
         cd $(params.source-dir)
         git checkout $(params.git-revision)
         ls -l facilitate/tools/jmeter/testplan/target.jmx     
- 
+    - name: jmeter-it
+      image: image-registry.openshift-image-registry.svc:5000/tools/jmeter-prevail2020
+      script: |
+        set +x
+        ls $(params.source-dir)/$(params.test-plan)
