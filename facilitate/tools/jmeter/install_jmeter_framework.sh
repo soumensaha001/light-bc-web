@@ -9,6 +9,8 @@ oc apply -f influxdb/influxdb-service.yaml
 
 oc get packagemanifests -n openshift-marketplace | grep grafana
 
+oc apply -f operator-group.yaml
+
 # Install Grafana
 oc apply -f - <<EOF
 apiVersion: operators.coreos.com/v1alpha1
