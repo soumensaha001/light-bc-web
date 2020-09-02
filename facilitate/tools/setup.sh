@@ -16,4 +16,9 @@ cd sonarqube
 ./install_sonarqube.sh
 cd ..
 
+cd jmeter
+./install_jmeter_framework.sh
+./build_jmeter_image.sh
+cd ..
+
 # TODO: setup Openshift service mesh
