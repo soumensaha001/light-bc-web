@@ -25,9 +25,19 @@ spec:
   sourceNamespace: openshift-marketplace
 EOF
 
+sleep 120
+
 # TODO: post yaml tp configure datasource
 oc apply -f grafana.yaml
+
+sleep 10
 oc apply -f grafana_ds.yaml
+
+sleep 10
+oc apply -f jmeter_dashboard.yaml
+
+sleep 10
+oc expose svc grafana-operator-metrics
 
 #dashboard 5496 JMeter for graphana.
 #import <code>
