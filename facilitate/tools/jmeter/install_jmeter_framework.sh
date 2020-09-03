@@ -25,28 +25,19 @@ spec:
   sourceNamespace: openshift-marketplace
 EOF
 
-sleep 120
+echo "sleep for 120 seconds to give the operator time to install"
 
-# TODO: post yaml tp configure datasource
+sleep 120
 oc apply -f grafana.yaml
 
+echo "sleep for 10 seconds"
 sleep 10
 oc apply -f grafana_ds.yaml
 
+echo "sleep for 10 seconds"
 sleep 10
 oc apply -f jmeter_dashboard.yaml
 
+echo "sleep for 10 seconds"
 sleep 10
 oc expose svc grafana-operator-metrics
-
-#dashboard 5496 JMeter for graphana.
-#import <code>
-
-# TODO:
-# build and push the Dockerfile
-
-# TODO:
-# post yaml with JMeter tekton task
-
-# Pipeline
- # post pipeline
